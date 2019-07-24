@@ -5,6 +5,7 @@ class array:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity
+        self.count = 0
         self.elements = [None] * capacity
 
 
@@ -34,11 +35,14 @@ def array_read(array, index):
 # Insert an element in a given array at a given index
 def array_insert(array, value, index ):
     # Throw an error if array is out of the current count
-    # if index > array.count:
+    if index > array.count:
+        print("Error, index " + str(index) + " out of range.")
+        return None
+    
 # I got interrupted here during lecture and had to step away. I'll have to rewatch this portion of it.
 
     # Resize the array if the number of elements is over capacity
-    if array.capactiy <= array.count:
+    if array.capacity <= array.count:
         resize_array(array)        
 
     # Move the elements to create a space at 'index'
