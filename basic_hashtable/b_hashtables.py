@@ -23,7 +23,7 @@ class BasicHashTable:
 # Fill this in.
 # Research and implement the djb2 hash function
 # '''
-def hash(string):
+def hash(string, max):
     hash = 5381
 
     for character in string:
@@ -33,7 +33,7 @@ def hash(string):
 # def hash(string):
 # 	hash = 5381
 #         for x in string:
-#             hash = ((( hash << 5) + hash) + ord(x))
+#             hash = ((( hash << 5) + hash) + ord(x)) & 0xFFFFFFFF
 #         return hash
 
 
@@ -44,7 +44,7 @@ def hash(string):
 # '''
 def hash_table_insert(hash_table, key, value):
     # get the hash version of key
-    key_hash = hash(key)
+    key_hash = hash(key, 5)
     # create a new pair using the key, value pair that was passed into function
     new_pair = Pair(key, value)
     # get the index by doing key_hash modulo hash_table.capacity
@@ -73,13 +73,13 @@ def hash_table_insert(hash_table, key, value):
 # '''
 def hash_table_remove(hash_table, key):
     # Get hash versin of key
-    hash_key = hash(key)
+    hash_key = hash(key, 5)
     # get index by mudolo the key by hash_table's capacity
     index = hash_key % hash_table.capacity
     # if there is a value other than None at index
     if hash_table.storage[index] != None:
         # set value to None
-        hash_table.srotage[index] = None
+        hash_table.storage[index] = None
     #else print a warning:
     else:
         print(f"{key} not found in hash table and thus cannot be removed.")
@@ -93,7 +93,7 @@ def hash_table_remove(hash_table, key):
 # '''
 def hash_table_retrieve(hash_table, key):
     # Get hash versin of key
-    hash_key = hash(key)
+    hash_key = hash(key, 5)
     # get index by mudolo the key by hash_table's capacity
     index = hash_key % hash_table.capacity
     # if index is not equal to None
