@@ -23,13 +23,18 @@ class BasicHashTable:
 # Fill this in.
 # Research and implement the djb2 hash function
 # '''
-def hash(string, max):
+def hash(string):
     hash = 5381
 
     for character in string:
         hash = (((hash << 5) + hash) + ord(character))
 
     return hash % max
+# def hash(string):
+# 	hash = 5381
+#         for x in string:
+#             hash = ((( hash << 5) + hash) + ord(x))
+#         return hash
 
 
 # '''
@@ -54,6 +59,12 @@ def hash_table_insert(hash_table, key, value):
             hash_table.storage[index].value = value
     else:
         hash_table.storage[index] = new_pair
+
+    # index = hash(key, hash_table.capacity)
+    # pair = Pair(key, value)
+    # if hash_table.storage[index] is not None:
+    #     print("Warning: overwriting " + str(hash_table.storage[index].key) + "!")
+    # hash_table.storage[index] = pair
 
 # '''
 # Fill this in.
