@@ -15,7 +15,8 @@ class Pair:
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
 
 # '''
@@ -23,7 +24,17 @@ class BasicHashTable:
 # Research and implement the djb2 hash function
 # '''
 def hash(string, max):
-    pass
+    hash = 5381
+
+    for character in string:
+        hash = (((hash << 5) + hash) + ord(character))
+
+    return hash % max
+# def hash(string):
+# 	hash = 5381
+#         for x in string:
+#             hash = ((( hash << 5) + hash) + ord(x)) & 0xFFFFFFFF
+#         return hash
 
 
 # '''
@@ -32,8 +43,28 @@ def hash(string, max):
 # If you are overwriting a value with a different key, print a warning.
 # '''
 def hash_table_insert(hash_table, key, value):
-    pass
+    # get the hash version of key
+    key_hash = hash(key, hash_table.capacity)
+    # create a new pair using the key, value pair that was passed into function
+    new_pair = Pair(key, value)
+    # get the index by doing key_hash modulo hash_table.capacity
+    index = key_hash % hash_table.capacity
+    # if index has pair already, check if keys match
+    if hash_table.storage[index] != None:
+        # if keys don't match, pring warning but otherwise do nothing
+        if key == hash_table.storage[index].key:
+            print(f"Collision detected for {key} and {hash_table.storage[index].key}!")
+        # if the keys do match, update the value
+        else:
+            hash_table.storage[index].value = value
+    else:
+        hash_table.storage[index] = new_pair
 
+    # index = hash(key, hash_table.capacity)
+    # pair = Pair(key, value)
+    # if hash_table.storage[index] is not None:
+    #     print("Warning: overwriting " + str(hash_table.storage[index].key) + "!")
+    # hash_table.storage[index] = pair
 
 # '''
 # Fill this in.
@@ -41,7 +72,18 @@ def hash_table_insert(hash_table, key, value):
 # If you try to remove a value that isn't there, print a warning.
 # '''
 def hash_table_remove(hash_table, key):
-    pass
+    # Get hash versin of key
+    hash_key = hash(key, hash_table.capacity)
+    # get index by mudolo the key by hash_table's capacity
+    index = hash_key % hash_table.capacity
+    # if there is a value other than None at index
+    if hash_table.storage[index] != None:
+        # set value to None
+        hash_table.storage[index] = None
+    #else print a warning:
+    else:
+        print(f"{key} not found in hash table and thus cannot be removed.")
+
 
 
 # '''
@@ -50,13 +92,25 @@ def hash_table_remove(hash_table, key):
 # Should return None if the key is not found.
 # '''
 def hash_table_retrieve(hash_table, key):
-    pass
+    # Get hash versin of key
+    hash_key = hash(key, hash_table.capacity)
+    # get index by mudolo the key by hash_table's capacity
+    index = hash_key % hash_table.capacity
+    # if index is not equal to None
+    if hash_table.storage[index] is not None:
+        # if key is equal to key we are looking up
+        if hash_table.storage[index].key == key:
+            # return value
+            return hash_table.storage[index].value
+    # return None
+    return None
 
 
 def Testing():
     ht = BasicHashTable(16)
 
     hash_table_insert(ht, "line", "Here today...\n")
+    print(ht.storage)
 
     hash_table_remove(ht, "line")
 
